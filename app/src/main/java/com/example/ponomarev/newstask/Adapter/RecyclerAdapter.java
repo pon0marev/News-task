@@ -10,9 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ponomarev.newstask.ArticleHelper.Article;
+import com.example.ponomarev.newstask.DateConvertor;
 import com.example.ponomarev.newstask.R;
 import com.squareup.picasso.Picasso;
 
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemViewHolder>{
@@ -42,7 +48,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
         holder.textTitle.setText(String.valueOf(articleList.get(position).getTitle()));
         holder.textDescription.setText(String.valueOf(articleList.get(position).getDescription()));
         holder.textAuthor.setText(articleList.get(position).getAuthor());
-        holder.textDate.setText(articleList.get(position).getPublishedAt()+"");
+
+        holder.textDate.setText(DateConvertor.convert(articleList.get(position).getPublishedAt()));
+
+
+
 
         Picasso.get().load(articleList.get(position).getUrlToImage()).into(holder.itemImage);
 

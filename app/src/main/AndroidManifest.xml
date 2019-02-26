@@ -18,7 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ArticleActivity"></activity>
+        <activity android:name=".ArticleActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.ponomarev.newstask.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>

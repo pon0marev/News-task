@@ -25,6 +25,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements RecyclerAdapter.RecyclerAdapterListener{
 
+    String category;
+    String key;
+    String country;
+
+    final String url="https://newsapi.org/v2/";
+
     private ResponseServer jsonData=null;
     private RecyclerView recyclerView;
 
@@ -33,19 +39,24 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.R
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        category="business";
+        key=getString(R.string.api_key);
+        country="us";
+        getJson();
 
-        String key=getString(R.string.api_key);
-        String country="ua";
 
-        String url="https://newsapi.org/v2/";
 
+
+    }
+
+    private void getJson(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ArticlesAPI articlesApi = retrofit.create(ArticlesAPI.class);
 
-        Call<ResponseServer> responseServerCall = articlesApi.responceCall();
+        Call<ResponseServer> responseServerCall = articlesApi.responceCall(country,category,key);
 
 
         responseServerCall.enqueue(new Callback<ResponseServer>() {
@@ -57,18 +68,17 @@ public class MainActivity extends AppCompatActivity implements RecyclerAdapter.R
                     jsonData=response.body();
                     swap();
                 } else {
-                    //textView.setText("response code " + response.code());
+                    Toast.makeText(getApplicationContext(),""+response.body().getStatus(),Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseServer> call, Throwable t) {
-               // textView.setText("failure " + t);
+                Toast.makeText(getApplicationContext(),"Failure",Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
+
 
     private void swap(){
         if (open()){
